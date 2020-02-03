@@ -437,6 +437,15 @@ class RefineProject:
             return 'ok'
         return response_json['code']  # can be 'ok' or 'pending'
 
+    def get_operations(self):
+        response = self.server.urlopen_json('get-operations', params={'project': self.project_id})
+        res = response['entries']
+        result = []
+        for r in res:
+            result.append(r['operation'])
+        # return json.loads(result)
+        return result
+
     def export(self, export_format='tsv'):
         """Return a fileobject of a project's data."""
         url = 'export-rows/' + urlparse.quote(self.project_name()) + '.' + export_format
